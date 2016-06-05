@@ -447,7 +447,8 @@ public class NuTagger extends javax.swing.JFrame {
 
     private void SaveSelectedListItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SaveSelectedListItemActionPerformed
         /* Checks if a song is actually selected using pathname data */
-        if (MusicTable.getValueAt(MusicTable.getSelectedRow(), 3) != null) {
+        if (  MusicTable.getValueAt(MusicTable.getSelectedRow(), 3) != null
+              && MusicTable.getSelectedRowCount() == 1) {
             String[] NewData = new String[5];
 
             NewData[0] = SongTextField.getText();
