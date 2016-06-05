@@ -38,7 +38,7 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="SaveSelectedListItemActionPerformed"/>
               </Events>
             </MenuItem>
-            <MenuItem class="javax.swing.JMenuItem" name="TSVSaveMenuItem">
+            <MenuItem class="javax.swing.JMenuItem" name="CSVSaveMenuItem">
               <Properties>
                 <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
                   <KeyStroke key="Shift+Ctrl+S"/>
@@ -46,7 +46,7 @@
                 <Property name="text" type="java.lang.String" value="Save Music to Database"/>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="TSVSaveMenuItemActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="CSVSaveMenuItemActionPerformed"/>
               </Events>
             </MenuItem>
           </SubComponents>
@@ -145,7 +145,7 @@
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="TableScrollPane" pref="757" max="32767" attributes="0"/>
+                  <Component id="TableScrollPane" pref="877" max="32767" attributes="0"/>
                   <Group type="102" alignment="0" attributes="0">
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="YearLable" alignment="0" min="-2" pref="109" max="-2" attributes="0"/>
@@ -211,7 +211,6 @@
   <SubComponents>
     <Container class="javax.swing.JScrollPane" name="TableScrollPane">
       <Properties>
-        <Property name="horizontalScrollBarPolicy" type="int" value="32"/>
         <Property name="verticalScrollBarPolicy" type="int" value="22"/>
       </Properties>
       <AuxValues>
@@ -231,32 +230,26 @@
               </Border>
             </Property>
             <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-              <Table columnCount="5" rowCount="20">
-                <Column editable="true" title="Song Name" type="java.lang.String"/>
-                <Column editable="true" title="Album" type="java.lang.String"/>
-                <Column editable="true" title="Artist" type="java.lang.String"/>
-                <Column editable="true" title="Year" type="java.lang.Integer"/>
-                <Column editable="false" title="File Path" type="java.lang.String"/>
+              <Table columnCount="4" rowCount="20">
+                <Column editable="false" title="#" type="java.lang.Integer"/>
+                <Column editable="false" title="Album" type="java.lang.String"/>
+                <Column editable="false" title="Title" type="java.lang.String"/>
+                <Column editable="false" title="Location" type="java.lang.String"/>
               </Table>
             </Property>
             <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
-              <TableColumnModel selectionModel="3">
-                <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+              <TableColumnModel selectionModel="0">
+                <Column maxWidth="20" minWidth="15" prefWidth="20" resizable="true">
                   <Title/>
                   <Editor/>
                   <Renderer/>
                 </Column>
-                <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                <Column maxWidth="-1" minWidth="50" prefWidth="70" resizable="true">
                   <Title/>
                   <Editor/>
                   <Renderer/>
                 </Column>
-                <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
-                  <Title/>
-                  <Editor/>
-                  <Renderer/>
-                </Column>
-                <Column maxWidth="60" minWidth="40" prefWidth="60" resizable="true">
+                <Column maxWidth="-1" minWidth="30" prefWidth="50" resizable="true">
                   <Title/>
                   <Editor/>
                   <Renderer/>
@@ -268,7 +261,6 @@
                 </Column>
               </TableColumnModel>
             </Property>
-            <Property name="columnSelectionAllowed" type="boolean" value="true"/>
             <Property name="editingColumn" type="int" value="1"/>
             <Property name="editingRow" type="int" value="1"/>
             <Property name="gridColor" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
