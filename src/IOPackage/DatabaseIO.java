@@ -26,6 +26,8 @@ package IOPackage;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JTable;
 import javax.swing.table.TableModel;
 
@@ -40,31 +42,31 @@ public class DatabaseIO {
      * Value File (.csv) saved at the file sent by the caller.
      *
      * @param file
-     * @param Jtable
+     * @param jtable
      * @param RowCount
      * @throws IOException
      */
-    public static void ToCSV(File file, JTable table, int RowCount) throws IOException {
-        String newLine = "\n";
-        char newComma = ',';
+    public static void ToCSV(File file, JTable jtable, int RowCount) throws IOException {
+        String NewLine = "\n";
+        char NewComma = ',';
         try {
-            TableModel model = table.getModel();
+            TableModel model = jtable.getModel();
             try (FileWriter sheet = new FileWriter(file)) {
                 for (int i = 0; i < model.getColumnCount(); i++) {
-                    sheet.write(model.getColumnName(i) + newComma);
+                    sheet.write(model.getColumnName(i) + NewComma);
                 }
-                sheet.write(newLine);
+                sheet.write(NewLine);
 
                 for (int i = 0; i <= (RowCount - 1); i++) {
                     for (int j = 0; j <= (model.getColumnCount() - 1); j++) {
-                        sheet.write(model.getValueAt(i, j).toString() + newComma);
+                        sheet.write(model.getValueAt(i, j).toString() + NewComma);
                     }
-                    sheet.write(newLine);
+                    sheet.write(NewLine);
                 }
             }
-        } catch (IOException e) {
-            System.err.println(e);
+        } catch (IOException ex) {
+            Logger.getLogger(IOPackage.DatabaseIO.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-
+    
 }

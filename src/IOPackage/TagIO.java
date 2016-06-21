@@ -36,21 +36,21 @@ import java.util.logging.Logger;
  * @author Stephen Gregoratto, 2016
  */
 public class TagIO {
-
+    
     /**
      * Music tags are read from the called file with metadata returned as a
      * string array
      * <br><br>
-     * The Array's data is as follows:
+     * The Array's data is as follows
      * <br>
-     * <code> Place[0] = Song Title/Name (e.g. "Neon Lights") </code><br>
-     * <code> Place[1] = Album Name (e.g. "The Man Machine") </code><br>
-     * <code> Place[2] = Artist Name(e.g "Kraftwerk") </code><br>
-     * <code> Place[3] = Song Year (e.g. "1977") </code><br>
-     * <code> Place[4] = Song Genre (e.g. "Electronic") </code><br>
-     * <code> Place[5] = Song's Comment (e.g. "A good song!") </code><br>
-     * <code> Place[6] = TBD </code><br>
-     * <code> Place[7] = TBD </code><br>
+     * <code>:
+     *          Place[0] = Song Title/Name (e.g. "Neon Lights") <br>
+     *          Place[1] = Album Name (e.g. "The Man Machine") <br>
+     *          Place[2] = Artist Name(e.g "Kraftwerk") <br>
+     *          Place[3] = Song Year (e.g. "1977") <br>
+     *          Place[4] = Song Genre (e.g. "Electronic") <br>
+     *          Place[5] = Song's Comment (e.g. "A good song!") <br>
+     * </code>
      *
      *
      * @param PickedFile
@@ -81,8 +81,7 @@ public class TagIO {
      * Overwrites PickedFile's metadata with the values in the Metadata string
      * array.
      * <br>
-     * The values in the array must correspond to those in {@code GetTagsInFile()
-     * }.
+     * The values in the array must correspond to those in {@code GetTagsInFile() }.
      *
      * @param NewTags[]
      * @param PickedFile
@@ -97,7 +96,6 @@ public class TagIO {
         song.getTag().setArtist(NewTags[2]);
         song.getTag().setYear(NewTags[3]);
         song.getTag().setGenre(NewTags[4]);
-
         try {
             AudioFileIO.write(song);
             return 0;
@@ -107,4 +105,5 @@ public class TagIO {
         }
 
     }
+    
 }

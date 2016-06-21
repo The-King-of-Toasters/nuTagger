@@ -22,21 +22,25 @@
  * THE SOFTWARE.
  */
 import IOPackage.TagIO;
+import com.opencsv.CSVReader;
 import entagged.audioformats.exceptions.CannotReadException;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import static javax.swing.JOptionPane.ERROR_MESSAGE;
-import javax.swing.ListSelectionModel;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
+import net.codejava.audio.SwingAudioPlayer;
 
 /**
  * <h1> Main GUI File </h1>
@@ -47,53 +51,71 @@ import javax.swing.table.DefaultTableModel;
  */
 public class NuTagger extends javax.swing.JFrame {
 
-    public JFileChooser FILECHOOSER;
+    public JFileChooser FC;
     public FileNameExtensionFilter SONGFILTER;
     public FileNameExtensionFilter CSVFILTER;
     public int ROWCOUNTER;
-    ListSelectionModel LSM;
+    public String OS;
 
     /**
      * Creates the main form, initialises public JFileChooser, sets public
      * FileFilter for song/CSV files, initialises counter for filled rows.
      */
     public NuTagger() {
-        this.FILECHOOSER = new JFileChooser();
+        this.FC = new JFileChooser();
         this.SONGFILTER = new FileNameExtensionFilter("Song Files"
                 + "(mp3, ogg, flac, wav, wma, ape)", "mp3", "ogg", "flac", "ape", "wav", "wma");
         this.CSVFILTER = new FileNameExtensionFilter("Comma Seperated File (.csv)", "csv");
-        FILECHOOSER.addChoosableFileFilter(SONGFILTER);
+        FC.addChoosableFileFilter(SONGFILTER);
         this.ROWCOUNTER = 0;
+        OS = System.getProperty("os.name").toLowerCase();
         initComponents();
+        SetIcon();
 
-        IncrementTableNumbers();
+        IncrementNumbers();
         /* Allows the selection of multiple files */
-        FILECHOOSER.setMultiSelectionEnabled(true);
+        FC.setMultiSelectionEnabled(true);
 
-        LSM = MusicTable.getSelectionModel();
-        LSM.addListSelectionListener(new MyListSelectionListener());
-        MusicTable.setSelectionModel(LSM);
+        MusicTable.getSelectionModel().addListSelectionListener(new MyListSelectionListener());
     }
 
-    private void IncrementTableNumbers() {
+    /**
+     * Cycles through the first column's rows and numbers them.
+     */
+    private void IncrementNumbers() {
         for (int i = 1; i <= MusicTable.getRowCount(); i++) {
             MusicTable.setValueAt(i, (i - 1), 0);
         }
     }
 
-    class MyListSelectionListener implements ListSelectionListener {
+    private void SetIcon() {
+        if (OS.contains("windows")) {
+            setIconImage(java.awt.Toolkit.getDefaultToolkit().getImage(getClass().getResource("icon.png")));
+        } else {
+            /* Default case for *NIX */
+            setIconImage(java.awt.Toolkit.getDefaultToolkit().getImage(getClass().getResource("iconwhite.png")));
+        }
+    }
+
+    public class MyListSelectionListener implements ListSelectionListener {
 
         @Override
         public void valueChanged(ListSelectionEvent e) {
-            System.err.println("Source: " + e.getSource());
-            System.err.println("Value Changed: " + e.toString());
             int row = MusicTable.getSelectedRow();
-            if (MusicTable.getSelectedRow() > -1
-                    && MusicTable.getValueAt(row, 3) != null
-                    && MusicTable.getSelectedRowCount() == 1
-                    && e.getValueIsAdjusting() == false) {
-                String path = (String) MusicTable.getValueAt(row, 3);
+            if (MusicTable.getSelectedRow() > -1         // Checks if a row is selected
+                && MusicTable.getValueAt(row, 3) != null // Check if there is a song in the row
+                && MusicTable.getSelectedRowCount() == 1 // Stops importing of more than one song
+                && !e.getValueIsAdjusting()) {           // Loads only when the event is adjusted (false)
+                
+                String path = (String) MusicTable.getValueAt(row, 3); // Gets file path
                 ImportTags(new File(path));
+
+                /* Clears all values in the cloned row */
+                for (int i = 1; i < 4; i++) {
+                    MusicTable.setValueAt(null, (ROWCOUNTER - 1), i);
+                }
+                /* Removes the addition of the cloned row to the counter */
+                ROWCOUNTER--;
             }
         }
     }
@@ -104,12 +126,11 @@ public class NuTagger extends javax.swing.JFrame {
      */
     public void ImportTags(File song) {
         String[] SongInfo;
-
         try {
             SongInfo = TagIO.GetTagsInFile(song);
             MusicTable.setValueAt(SongInfo[1], ROWCOUNTER, 1); // Loads Album Name in table
             MusicTable.setValueAt(SongInfo[0], ROWCOUNTER, 2); // Same for its title
-            MusicTable.setValueAt(song.getAbsolutePath(), ROWCOUNTER, 3); // Full Filepath
+            MusicTable.setValueAt(song.getAbsolutePath(), ROWCOUNTER, 3); // Full file path
 
             /* Loads song data in the quick edit section */
             SongTextField.setText(SongInfo[0]);
@@ -148,6 +169,8 @@ public class NuTagger extends javax.swing.JFrame {
         OpenListItem = new javax.swing.JMenuItem();
         SaveSelectedListItem = new javax.swing.JMenuItem();
         CSVSaveMenuItem = new javax.swing.JMenuItem();
+        CSVLoadMenuItem = new javax.swing.JMenuItem();
+        PlayListItem = new javax.swing.JMenuItem();
         EditMenu = new javax.swing.JMenu();
         SelectEditMenuItem = new javax.swing.JMenuItem();
         ClearMenuItems = new javax.swing.JMenuItem();
@@ -295,6 +318,25 @@ public class NuTagger extends javax.swing.JFrame {
         });
         FileMenu.add(CSVSaveMenuItem);
 
+        CSVLoadMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_O, java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.CTRL_MASK));
+        CSVLoadMenuItem.setText("Load Database");
+        CSVLoadMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                CSVLoadMenuItemActionPerformed(evt);
+            }
+        });
+        FileMenu.add(CSVLoadMenuItem);
+
+        PlayListItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_P, java.awt.event.InputEvent.CTRL_MASK));
+        PlayListItem.setText("Play Song");
+        PlayListItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                PlayListItemActionPerformed(evt);
+            }
+        });
+        FileMenu.add(PlayListItem);
+        PlayListItem.getAccessibleContext().setAccessibleDescription("");
+
         MainMenuBar.add(FileMenu);
 
         EditMenu.setText("Edit");
@@ -402,19 +444,19 @@ public class NuTagger extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void OpenListItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_OpenListItemActionPerformed
-        FILECHOOSER.setFileFilter(SONGFILTER);
-        //DefaultTableModel model = (DefaultTableModel) MusicTable.getModel();
+        FC.setFileFilter(SONGFILTER); // Sets filter for proper song import
+        DefaultTableModel model = (DefaultTableModel) MusicTable.getModel(); // Used to add rows
 
-        if (FILECHOOSER.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
-            File[] SelectedSongs = FILECHOOSER.getSelectedFiles();
+        if (FC.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
+            File[] SelectedSongs = FC.getSelectedFiles();
             for (int i = 0; i <= (SelectedSongs.length - 1); i++) {
                 ImportTags(SelectedSongs[i]);
-                //model.addRow(new Object[]{});
+                model.addRow(new Object[]{}); // New blank row
             }
         }
-        FILECHOOSER.resetChoosableFileFilters(); // Resets filter for TSV export
+        FC.resetChoosableFileFilters(); // Resets filter for CSV export
 
-        IncrementTableNumbers();
+        IncrementNumbers();
     }//GEN-LAST:event_OpenListItemActionPerformed
 
     private void SongTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SongTextFieldActionPerformed
@@ -438,28 +480,27 @@ public class NuTagger extends javax.swing.JFrame {
     }//GEN-LAST:event_AboutNutaggerItemActionPerformed
 
     private void CSVSaveMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CSVSaveMenuItemActionPerformed
-        /* Sets file save to tsv files only */
-        FILECHOOSER.setFileFilter(CSVFILTER);
+        /* Sets file save to csv files only */
+        FC.setFileFilter(CSVFILTER);
 
-        if (FILECHOOSER.showSaveDialog(this) == JFileChooser.APPROVE_OPTION) {
+        if (FC.showSaveDialog(this) == JFileChooser.APPROVE_OPTION) {
             /* Gets file name ("a.csv") */
-            String filename = FILECHOOSER.getSelectedFile().getName();
+            String filename = FC.getSelectedFile().getName();
             /* Gets file path (e.g. "/mnt/player/Bob\ Marley") */
-            String path = FILECHOOSER.getSelectedFile().getParentFile().getPath();
+            String path = FC.getSelectedFile().getParentFile().getPath();
 
             int FilenameLength = filename.length();
             String FileExtension = null, file = null;
 
-            /* Gets the extension at the end as a substring of the filename */
+            /* Stores the extension at the end as a substring of the filename */
             if (FilenameLength > 4) {
                 FileExtension = filename.substring(FilenameLength - 4, FilenameLength);
             }
 
-            /* Joins path and name for TSV save location */
-            String OS = System.getProperty("os.name").toLowerCase();
+            /* Joins path and name for CSV save location */
             if (FileExtension.equals(".csv")) {
                 if (OS.contains("windows")) {
-                    /* Special case for Win NT/DOS */
+                    /* Special case for Win NT */
                     file = path + "\\" + filename;
                 } else {
                     /* Default case for *NIX */
@@ -477,7 +518,7 @@ public class NuTagger extends javax.swing.JFrame {
                 Logger.getLogger(NuTagger.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-        FILECHOOSER.resetChoosableFileFilters(); // Resets Filter for Music Import
+        FC.resetChoosableFileFilters(); // Resets Filter for Music Import
     }//GEN-LAST:event_CSVSaveMenuItemActionPerformed
 
     private void SaveSelectedListItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SaveSelectedListItemActionPerformed
@@ -511,7 +552,7 @@ public class NuTagger extends javax.swing.JFrame {
     private void ClearMenuItemsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ClearMenuItemsActionPerformed
         /* Cycles through rows to remove their contents */
         for (int i = 0; i <= (ROWCOUNTER - 1); i++) {
-            for (int j = 1; j <= (MusicTable.getColumnCount()); j++) {
+            for (int j = 1; j <= MusicTable.getColumnCount() - 1; j++) {
                 MusicTable.setValueAt(null, i, j);
             }
         }
@@ -525,6 +566,63 @@ public class NuTagger extends javax.swing.JFrame {
 
         ROWCOUNTER = 0;
     }//GEN-LAST:event_ClearMenuItemsActionPerformed
+
+    private void CSVLoadMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CSVLoadMenuItemActionPerformed
+        try {
+            FC.setFileFilter(CSVFILTER);
+            if (FC.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
+                File oldDB = FC.getSelectedFile();
+
+                int maxWidth = MusicTable.getColumnModel().getColumn(0).getMaxWidth();
+                int minWidth = MusicTable.getColumnModel().getColumn(0).getMinWidth();
+                int preWidth = MusicTable.getColumnModel().getColumn(0).getPreferredWidth();
+
+                CSVReader reader = new CSVReader(new FileReader(oldDB));
+                List myEntries = reader.readAll();
+                int rows;
+                if (myEntries.size() - 1 <= 20) {
+                    rows = 20;
+                } else {
+                    rows = myEntries.size();
+                }
+                DefaultTableModel model = (DefaultTableModel) MusicTable.getModel();
+                model.setColumnCount(5);
+
+                int rowcount = myEntries.size() - 1;
+                for (int x = 0; x < rowcount; x++) {
+                    int columnnumber = 0;
+                    // if x = 0 this is the first row...skip it... data used for columnnames
+                    if (x > 0) {
+                        for (String thiscellvalue : (String[]) myEntries.get(x)) {
+                            model.setValueAt(thiscellvalue, x - 1, columnnumber);
+                            columnnumber++;
+                        }
+                    }
+                }
+
+                model.setColumnCount(4);
+
+                IncrementNumbers();
+                MusicTable.getColumnModel().getColumn(0).setPreferredWidth(preWidth);
+                MusicTable.getColumnModel().getColumn(0).setMinWidth(minWidth);
+                MusicTable.getColumnModel().getColumn(0).setMaxWidth(maxWidth);
+                MusicTable.removeRowSelectionInterval(myEntries.size() - 1, myEntries.size());
+
+                ROWCOUNTER = myEntries.size() - 2;
+
+            }
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(NuTagger.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(NuTagger.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_CSVLoadMenuItemActionPerformed
+
+    private void PlayListItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PlayListItemActionPerformed
+        net.codejava.audio.SwingAudioPlayer.GetFile(OS);
+        SwingAudioPlayer player = new SwingAudioPlayer();
+        player.setVisible(true);
+    }//GEN-LAST:event_PlayListItemActionPerformed
     /**
      * @param args the command line arguments
      */
@@ -551,10 +649,11 @@ public class NuTagger extends javax.swing.JFrame {
     private javax.swing.JTextField AlbumTextField;
     private static final javax.swing.JLabel ArtistLabel = new javax.swing.JLabel();
     private javax.swing.JTextField ArtistTextField;
+    private javax.swing.JMenuItem CSVLoadMenuItem;
     private javax.swing.JMenuItem CSVSaveMenuItem;
     private javax.swing.JMenuItem ClearMenuItems;
     private javax.swing.JMenu EditMenu;
-    private javax.swing.JMenu FileMenu;
+    public static javax.swing.JMenu FileMenu;
     private static final javax.swing.JLabel GenreLable = new javax.swing.JLabel();
     private javax.swing.JTextField GenreTextField;
     private javax.swing.JMenu HelpMenu;
@@ -564,6 +663,7 @@ public class NuTagger extends javax.swing.JFrame {
     private javax.swing.JMenu OfflineDocsItem;
     private javax.swing.JMenuItem OnlineDocsItem;
     private javax.swing.JMenuItem OpenListItem;
+    public javax.swing.JMenuItem PlayListItem;
     private javax.swing.JMenuItem SaveSelectedListItem;
     private javax.swing.JMenuItem SelectEditMenuItem;
     private static final javax.swing.JLabel SongNameLabel = new javax.swing.JLabel();
