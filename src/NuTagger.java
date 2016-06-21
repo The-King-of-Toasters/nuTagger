@@ -40,7 +40,6 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
-import net.codejava.audio.SwingAudioPlayer;
 
 /**
  * <h1> Main GUI File </h1>
@@ -619,9 +618,21 @@ public class NuTagger extends javax.swing.JFrame {
     }//GEN-LAST:event_CSVLoadMenuItemActionPerformed
 
     private void PlayListItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PlayListItemActionPerformed
-        net.codejava.audio.SwingAudioPlayer.GetFile(OS);
-        SwingAudioPlayer player = new SwingAudioPlayer();
-        player.setVisible(true);
+        int row = MusicTable.getSelectedRow();
+        String file = (String) MusicTable.getValueAt(row, 3);
+        String fileName = file.substring(0, file.length() -4);
+        String extension = file.substring(file.length() - 4, file.length());
+        System.out.println(file + fileName + extension);
+        if (file != null && extension != ".wav"){
+            String[] args = new String[] {"/bin/bash", "-c", "ffmpeg", "-i", fileName + ".wav"};
+            try {
+                Process proc = new ProcessBuilder(args).start();
+            } catch (IOException ex) {
+                Logger.getLogger(NuTagger.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        
+        // net.codejava.audio.SwingAudioPlayer.GetFile("/home/stephen/fan.wav");
     }//GEN-LAST:event_PlayListItemActionPerformed
     /**
      * @param args the command line arguments
