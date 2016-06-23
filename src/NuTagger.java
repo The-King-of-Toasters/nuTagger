@@ -602,7 +602,7 @@ public class NuTagger extends javax.swing.JFrame {
                 ClearMenuItemsActionPerformed(evt);
                 File oldDB = FC.getSelectedFile();
                 /* Calls a new CSV Reader from OpenCSV using the file */
-                CSVReader reader = new CSVReader(new FileReader(oldDB));
+                CSVReader reader = new CSVReader(new FileReader(oldDB), ',', '"', '|');
                 
                 List myEntries = reader.readAll();
                 /* Used to manipluate the table later on */ 
