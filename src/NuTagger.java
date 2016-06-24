@@ -29,10 +29,13 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFileChooser;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import static javax.swing.JOptionPane.ERROR_MESSAGE;
 import javax.swing.UIManager;
@@ -95,7 +98,7 @@ public class NuTagger extends javax.swing.JFrame {
         }
     }
 
-    private void SetIcon() {
+    public void SetIcon() {
         if (OS.contains("windows")) {
             setIconImage(java.awt.Toolkit.getDefaultToolkit().getImage(getClass().getResource("icon.png")));
         } else {
@@ -318,6 +321,7 @@ public class NuTagger extends javax.swing.JFrame {
 
         OpenListItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_O, java.awt.event.InputEvent.CTRL_MASK));
         OpenListItem.setText("Open Files");
+        OpenListItem.setToolTipText("Open music files and load them into nuTagger.");
         OpenListItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 OpenListItemActionPerformed(evt);
@@ -327,6 +331,7 @@ public class NuTagger extends javax.swing.JFrame {
 
         CSVLoadMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_O, java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.CTRL_MASK));
         CSVLoadMenuItem.setText("Load Database");
+        CSVLoadMenuItem.setToolTipText("Load a database that has been previously saved.");
         CSVLoadMenuItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 CSVLoadMenuItemActionPerformed(evt);
@@ -336,6 +341,7 @@ public class NuTagger extends javax.swing.JFrame {
 
         PlayListItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_P, java.awt.event.InputEvent.CTRL_MASK));
         PlayListItem.setText("Play Song");
+        PlayListItem.setToolTipText("Play a selected song usig your default music player.");
         PlayListItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 PlayListItemActionPerformed(evt);
@@ -351,6 +357,7 @@ public class NuTagger extends javax.swing.JFrame {
 
         ClearMenuItems.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_DELETE, java.awt.event.InputEvent.ALT_MASK));
         ClearMenuItems.setText("Clear All Values");
+        ClearMenuItems.setToolTipText("Cleas all songs from the database. Does NOT delete the songs themselves.");
         ClearMenuItems.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 ClearMenuItemsActionPerformed(evt);
@@ -360,6 +367,7 @@ public class NuTagger extends javax.swing.JFrame {
 
         SaveSelectedListItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.CTRL_MASK));
         SaveSelectedListItem.setText("Save Selected");
+        SaveSelectedListItem.setToolTipText("Save the ");
         SaveSelectedListItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 SaveSelectedListItemActionPerformed(evt);
@@ -381,7 +389,8 @@ public class NuTagger extends javax.swing.JFrame {
         HelpMenu.setText("Help");
         HelpMenu.setToolTipText("Options for help in using nuTagger.");
 
-        OnlineDocsItem.setText("Online (Github)");
+        OnlineDocsItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_H, java.awt.event.InputEvent.CTRL_MASK));
+        OnlineDocsItem.setText("Online Help");
         OnlineDocsItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 OnlineDocsItemActionPerformed(evt);
@@ -390,6 +399,7 @@ public class NuTagger extends javax.swing.JFrame {
         HelpMenu.add(OnlineDocsItem);
         HelpMenu.add(jSeparator1);
 
+        AboutNutaggerItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_H, java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.CTRL_MASK));
         AboutNutaggerItem.setText("About nuTagger");
         AboutNutaggerItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -469,6 +479,7 @@ public class NuTagger extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void OpenListItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_OpenListItemActionPerformed
@@ -501,11 +512,16 @@ public class NuTagger extends javax.swing.JFrame {
     }//GEN-LAST:event_AlbumTextFieldActionPerformed
 
     private void OnlineDocsItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_OnlineDocsItemActionPerformed
-        // TODO add your handling code here:
+        try {
+            Desktop.getDesktop().browse(new URI("https://github.com/The-King-of-Toasters/nuTagger/wiki/nuTagger-Wiki"));
+        } catch (URISyntaxException | IOException ex) {
+            Logger.getLogger(NuTagger.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_OnlineDocsItemActionPerformed
 
     private void AboutNutaggerItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AboutNutaggerItemActionPerformed
-        // TODO add your handling code here:
+        JFrame aboutFrame = new AboutJFrame();
+        aboutFrame.setVisible(true);
     }//GEN-LAST:event_AboutNutaggerItemActionPerformed
 
     private void CSVSaveMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CSVSaveMenuItemActionPerformed
@@ -615,7 +631,7 @@ public class NuTagger extends javax.swing.JFrame {
                 int rowcount = myEntries.size();
                 for (int i = 1; i < rowcount; i++) {
                     int columnnumber = 0;
-                    /* The first row (i=0) is used for column titles, so they are skiped */
+                    /* The first row (i=0) is used for column titles, so it is skiped */
                         for (String thiscellvalue : (String[]) myEntries.get(i)) {
                             model.setValueAt(thiscellvalue, (i - 1), columnnumber); // Rows start form 0
                             columnnumber++;
@@ -642,11 +658,19 @@ public class NuTagger extends javax.swing.JFrame {
 
     private void PlayListItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PlayListItemActionPerformed
         int row = MusicTable.getSelectedRow();
-        File songToPlay = new File((String) MusicTable.getValueAt(row, 3));
-        try {
-            Desktop.getDesktop().open(songToPlay);
-        } catch (IOException ex) {
-            Logger.getLogger(NuTagger.class.getName()).log(Level.SEVERE, null, ex);
+        if (MusicTable.getSelectedRow() > -1             // Checks if a row is selected
+            && MusicTable.getValueAt(row, 3) != null     // Check if there is a song in the row
+            && MusicTable.getSelectedRowCount() == 1) {  // Stops playing of more than one song
+
+            File songToPlay = new File((String) MusicTable.getValueAt(row, 3));
+            try {
+                Desktop.getDesktop().open(songToPlay);
+            } catch (IOException ex) {
+                Logger.getLogger(NuTagger.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } else {
+                JOptionPane.showMessageDialog(rootPane, "A valid music file has"
+                    + " not been selected", "Input Error", ERROR_MESSAGE);
         }
     }//GEN-LAST:event_PlayListItemActionPerformed
 

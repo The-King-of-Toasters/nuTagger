@@ -26,6 +26,7 @@
                   <KeyStroke key="Ctrl+O"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Open Files"/>
+                <Property name="toolTipText" type="java.lang.String" value="Open music files and load them into nuTagger."/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="OpenListItemActionPerformed"/>
@@ -37,6 +38,7 @@
                   <KeyStroke key="Shift+Ctrl+O"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Load Database"/>
+                <Property name="toolTipText" type="java.lang.String" value="Load a database that has been previously saved."/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="CSVLoadMenuItemActionPerformed"/>
@@ -48,6 +50,7 @@
                   <KeyStroke key="Ctrl+P"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Play Song"/>
+                <Property name="toolTipText" type="java.lang.String" value="Play a selected song usig your default music player."/>
               </Properties>
               <AccessibilityProperties>
                 <Property name="AccessibleContext.accessibleDescription" type="java.lang.String" value=""/>
@@ -73,6 +76,7 @@
                   <KeyStroke key="Alt+DELETE"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Clear All Values"/>
+                <Property name="toolTipText" type="java.lang.String" value="Cleas all songs from the database. Does NOT delete the songs themselves."/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="ClearMenuItemsActionPerformed"/>
@@ -84,6 +88,7 @@
                   <KeyStroke key="Ctrl+S"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Save Selected"/>
+                <Property name="toolTipText" type="java.lang.String" value="Save the "/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="SaveSelectedListItemActionPerformed"/>
@@ -110,7 +115,10 @@
           <SubComponents>
             <MenuItem class="javax.swing.JMenuItem" name="OnlineDocsItem">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Online (Github)"/>
+                <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
+                  <KeyStroke key="Ctrl+H"/>
+                </Property>
+                <Property name="text" type="java.lang.String" value="Online Help"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="OnlineDocsItemActionPerformed"/>
@@ -120,6 +128,9 @@
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="AboutNutaggerItem">
               <Properties>
+                <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
+                  <KeyStroke key="Shift+Ctrl+H"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="About nuTagger"/>
               </Properties>
               <Events>
@@ -142,7 +153,7 @@
   <SyntheticProperties>
     <SyntheticProperty name="menuBar" type="java.lang.String" value="MainMenuBar"/>
     <SyntheticProperty name="formSizePolicy" type="int" value="1"/>
-    <SyntheticProperty name="generateCenter" type="boolean" value="false"/>
+    <SyntheticProperty name="generateCenter" type="boolean" value="true"/>
   </SyntheticProperties>
   <AuxValues>
     <AuxValue name="FormSettings_autoResourcing" type="java.lang.Integer" value="0"/>
