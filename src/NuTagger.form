@@ -14,6 +14,7 @@
         <Menu class="javax.swing.JMenu" name="FileMenu">
           <Properties>
             <Property name="text" type="java.lang.String" value="File"/>
+            <Property name="toolTipText" type="java.lang.String" value="Options to load/play songs and load previous Dataabases."/>
           </Properties>
           <AuxValues>
             <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="9"/>
@@ -63,6 +64,7 @@
         <Menu class="javax.swing.JMenu" name="EditMenu">
           <Properties>
             <Property name="text" type="java.lang.String" value="Edit"/>
+            <Property name="toolTipText" type="java.lang.String" value="Options to save music/database and clear the database of records."/>
           </Properties>
           <SubComponents>
             <MenuItem class="javax.swing.JMenuItem" name="ClearMenuItems">
@@ -103,28 +105,17 @@
         <Menu class="javax.swing.JMenu" name="HelpMenu">
           <Properties>
             <Property name="text" type="java.lang.String" value="Help"/>
+            <Property name="toolTipText" type="java.lang.String" value="Options for help in using nuTagger."/>
           </Properties>
           <SubComponents>
-            <Menu class="javax.swing.JMenu" name="NestedDocsMenu">
+            <MenuItem class="javax.swing.JMenuItem" name="OnlineDocsItem">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Documentation"/>
+                <Property name="text" type="java.lang.String" value="Online (Github)"/>
               </Properties>
-              <SubComponents>
-                <MenuItem class="javax.swing.JMenuItem" name="OnlineDocsItem">
-                  <Properties>
-                    <Property name="text" type="java.lang.String" value="Online (Github)"/>
-                  </Properties>
-                  <Events>
-                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="OnlineDocsItemActionPerformed"/>
-                  </Events>
-                </MenuItem>
-                <Menu class="javax.swing.JMenu" name="OfflineDocsItem">
-                  <Properties>
-                    <Property name="text" type="java.lang.String" value="Offline (Man Pages)"/>
-                  </Properties>
-                </Menu>
-              </SubComponents>
-            </Menu>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="OnlineDocsItemActionPerformed"/>
+              </Events>
+            </MenuItem>
             <MenuItem class="javax.swing.JPopupMenu$Separator" name="jSeparator1">
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="AboutNutaggerItem">
@@ -278,6 +269,7 @@
                 <Column editable="false" title="Location" type="java.lang.String"/>
               </Table>
             </Property>
+            <Property name="toolTipText" type="java.lang.String" value="This is where imported music is stored. You can select songs to edit their tags."/>
             <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
               <TableColumnModel selectionModel="0">
                 <Column maxWidth="20" minWidth="15" prefWidth="20" resizable="true">
@@ -322,7 +314,7 @@
           <Connection component="SongTextField" name="font" type="property"/>
         </Property>
         <Property name="horizontalAlignment" type="int" value="4"/>
-        <Property name="text" type="java.lang.String" value="Song Name:"/>
+        <Property name="text" type="java.lang.String" value="Title:"/>
       </Properties>
       <AuxValues>
         <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="26"/>
@@ -377,23 +369,38 @@
       </AuxValues>
     </Component>
     <Component class="javax.swing.JTextField" name="SongTextField">
+      <Properties>
+        <Property name="toolTipText" type="java.lang.String" value="This is where the song&apos;s title is located. (e.g &quot;The Man-Machine&quot; ) You can edit its value and save it using Ctrl+S"/>
+      </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="SongTextFieldActionPerformed"/>
       </Events>
     </Component>
     <Component class="javax.swing.JTextField" name="AlbumTextField">
+      <Properties>
+        <Property name="toolTipText" type="java.lang.String" value="This is where the song&apos;s album name is located (e.g &quot;Animals&quot; ). You can edit its value and save it using Ctrl+S"/>
+      </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="AlbumTextFieldActionPerformed"/>
       </Events>
     </Component>
     <Component class="javax.swing.JTextField" name="ArtistTextField">
+      <Properties>
+        <Property name="toolTipText" type="java.lang.String" value="This is where the song&apos;s artist is located (e.g &quot;David Bowie&quot; ). You can edit its value and save it using Ctrl+S"/>
+      </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="ArtistTextFieldActionPerformed"/>
       </Events>
     </Component>
     <Component class="javax.swing.JTextField" name="YearTextField">
+      <Properties>
+        <Property name="toolTipText" type="java.lang.String" value="This is the year the song was made. You can edit its value and save it using Ctrl+S"/>
+      </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="GenreTextField">
+      <Properties>
+        <Property name="toolTipText" type="java.lang.String" value="This is the song&apos;s genre. This is the year the song was made (e.g Classical, Techno ). You can edit its value and save it using Ctrl+S"/>
+      </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="CommentLabel">
       <Properties>
@@ -408,6 +415,9 @@
       </AuxValues>
     </Component>
     <Component class="javax.swing.JTextField" name="CommentTextField">
+      <Properties>
+        <Property name="toolTipText" type="java.lang.String" value="This is where the song&apos;s individual comment is located (e.g &quot;Best song of my childhood!&quot; ). You can edit its value and save it using Ctrl+S"/>
+      </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="CommentTextFieldActionPerformed"/>
       </Events>

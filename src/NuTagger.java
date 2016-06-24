@@ -182,9 +182,7 @@ public class NuTagger extends javax.swing.JFrame {
         SaveSelectedListItem = new javax.swing.JMenuItem();
         CSVSaveMenuItem = new javax.swing.JMenuItem();
         HelpMenu = new javax.swing.JMenu();
-        NestedDocsMenu = new javax.swing.JMenu();
         OnlineDocsItem = new javax.swing.JMenuItem();
-        OfflineDocsItem = new javax.swing.JMenu();
         jSeparator1 = new javax.swing.JPopupMenu.Separator();
         AboutNutaggerItem = new javax.swing.JMenuItem();
 
@@ -239,6 +237,7 @@ public class NuTagger extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        MusicTable.setToolTipText("This is where imported music is stored. You can select songs to edit their tags.");
         MusicTable.setDoubleBuffered(true);
         MusicTable.setDragEnabled(true);
         MusicTable.setEditingColumn(1);
@@ -258,7 +257,7 @@ public class NuTagger extends javax.swing.JFrame {
 
         SongNameLabel.setFont(SongTextField.getFont());
         SongNameLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        SongNameLabel.setText("Song Name:");
+        SongNameLabel.setText("Title:");
 
         AlbumLabel.setFont(SongTextField.getFont());
         AlbumLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
@@ -276,28 +275,36 @@ public class NuTagger extends javax.swing.JFrame {
         GenreLable.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         GenreLable.setText("Genre:");
 
+        SongTextField.setToolTipText("This is where the song's title is located. (e.g \"The Man-Machine\" ) You can edit its value and save it using Ctrl+S");
         SongTextField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 SongTextFieldActionPerformed(evt);
             }
         });
 
+        AlbumTextField.setToolTipText("This is where the song's album name is located (e.g \"Animals\" ). You can edit its value and save it using Ctrl+S");
         AlbumTextField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 AlbumTextFieldActionPerformed(evt);
             }
         });
 
+        ArtistTextField.setToolTipText("This is where the song's artist is located (e.g \"David Bowie\" ). You can edit its value and save it using Ctrl+S");
         ArtistTextField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 ArtistTextFieldActionPerformed(evt);
             }
         });
 
+        YearTextField.setToolTipText("This is the year the song was made. You can edit its value and save it using Ctrl+S");
+
+        GenreTextField.setToolTipText("This is the song's genre. This is the year the song was made (e.g Classical, Techno ). You can edit its value and save it using Ctrl+S");
+
         CommentLabel.setFont(SongTextField.getFont());
         CommentLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         CommentLabel.setText("Comment:");
 
+        CommentTextField.setToolTipText("This is where the song's individual comment is located (e.g \"Best song of my childhood!\" ). You can edit its value and save it using Ctrl+S");
         CommentTextField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 CommentTextFieldActionPerformed(evt);
@@ -307,6 +314,7 @@ public class NuTagger extends javax.swing.JFrame {
         MainMenuBar.setFont(MainMenuBar.getFont().deriveFont(MainMenuBar.getFont().getSize()+3f));
 
         FileMenu.setText("File");
+        FileMenu.setToolTipText("Options to load/play songs and load previous Dataabases.");
 
         OpenListItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_O, java.awt.event.InputEvent.CTRL_MASK));
         OpenListItem.setText("Open Files");
@@ -339,6 +347,7 @@ public class NuTagger extends javax.swing.JFrame {
         MainMenuBar.add(FileMenu);
 
         EditMenu.setText("Edit");
+        EditMenu.setToolTipText("Options to save music/database and clear the database of records.");
 
         ClearMenuItems.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_DELETE, java.awt.event.InputEvent.ALT_MASK));
         ClearMenuItems.setText("Clear All Values");
@@ -370,8 +379,7 @@ public class NuTagger extends javax.swing.JFrame {
         MainMenuBar.add(EditMenu);
 
         HelpMenu.setText("Help");
-
-        NestedDocsMenu.setText("Documentation");
+        HelpMenu.setToolTipText("Options for help in using nuTagger.");
 
         OnlineDocsItem.setText("Online (Github)");
         OnlineDocsItem.addActionListener(new java.awt.event.ActionListener() {
@@ -379,12 +387,7 @@ public class NuTagger extends javax.swing.JFrame {
                 OnlineDocsItemActionPerformed(evt);
             }
         });
-        NestedDocsMenu.add(OnlineDocsItem);
-
-        OfflineDocsItem.setText("Offline (Man Pages)");
-        NestedDocsMenu.add(OfflineDocsItem);
-
-        HelpMenu.add(NestedDocsMenu);
+        HelpMenu.add(OnlineDocsItem);
         HelpMenu.add(jSeparator1);
 
         AboutNutaggerItem.setText("About nuTagger");
@@ -689,8 +692,6 @@ public class NuTagger extends javax.swing.JFrame {
     private javax.swing.JMenu HelpMenu;
     private javax.swing.JMenuBar MainMenuBar;
     private javax.swing.JTable MusicTable;
-    private javax.swing.JMenu NestedDocsMenu;
-    private javax.swing.JMenu OfflineDocsItem;
     private javax.swing.JMenuItem OnlineDocsItem;
     private javax.swing.JMenuItem OpenListItem;
     public javax.swing.JMenuItem PlayListItem;
