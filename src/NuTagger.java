@@ -377,6 +377,7 @@ public class NuTagger extends javax.swing.JFrame {
 
         CSVSaveMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.CTRL_MASK));
         CSVSaveMenuItem.setText("Save Music to Database");
+        CSVSaveMenuItem.setToolTipText("Save the contents of the database to a database file.");
         CSVSaveMenuItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 CSVSaveMenuItemActionPerformed(evt);
@@ -391,6 +392,7 @@ public class NuTagger extends javax.swing.JFrame {
 
         OnlineDocsItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_H, java.awt.event.InputEvent.CTRL_MASK));
         OnlineDocsItem.setText("Online Help");
+        OnlineDocsItem.setToolTipText("Launches nuTagger's online wiki in your default web browser.");
         OnlineDocsItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 OnlineDocsItemActionPerformed(evt);
@@ -401,6 +403,7 @@ public class NuTagger extends javax.swing.JFrame {
 
         AboutNutaggerItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_H, java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.CTRL_MASK));
         AboutNutaggerItem.setText("About nuTagger");
+        AboutNutaggerItem.setToolTipText("Opens window with general info/program licences.");
         AboutNutaggerItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 AboutNutaggerItemActionPerformed(evt);
