@@ -66,13 +66,14 @@ public class TagIO {
         Tags[2] = song.getTag().getArtist().toString();
         Tags[3] = song.getTag().getYear().toString();
         Tags[4] = song.getTag().getGenre().toString();
-        Tags[5] = song.getTag().getComment().toString();
+        Tags[5] = song.getTag().getComment().toString(); //.substring(9);
 
         /* Removing List brackets around the strings */
         for (int i = 0; i <= (Tags.length - 1); i++) {
             /* Substring starts after first bracket, ends before last bracket */
             Tags[i] = Tags[i].substring(1, (Tags[i].length() - 1));
         }
+        
         return Tags;
     }
     
@@ -96,6 +97,7 @@ public class TagIO {
         song.getTag().setArtist(NewTags[2]);
         song.getTag().setYear(NewTags[3]);
         song.getTag().setGenre(NewTags[4]);
+        song.getTag().setComment(NewTags[5]);
         try {
             AudioFileIO.write(song);
             return 0;
@@ -103,7 +105,5 @@ public class TagIO {
             Logger.getLogger(IOPackage.TagIO.class.getName()).log(Level.SEVERE, null, ex);
             return -1;
         }
-
     }
-    
 }
