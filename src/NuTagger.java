@@ -187,7 +187,7 @@ public class NuTagger extends javax.swing.JFrame {
         AboutNutaggerItem = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("nuTager");
+        setTitle("nuTagger");
         setFont(new java.awt.Font("Cantarell", 0, 12)); // NOI18N
         setLocationByPlatform(true);
 
