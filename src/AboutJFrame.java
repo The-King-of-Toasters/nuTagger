@@ -62,6 +62,7 @@ public class AboutJFrame extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("About nuTagger");
+        setLocation(new java.awt.Point(-1, -1));
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconsmall.png"))); // NOI18N
 
@@ -70,6 +71,7 @@ public class AboutJFrame extends javax.swing.JFrame {
         jScrollPane1.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
         jScrollPane1.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
 
+        jTextArea1.setEditable(false);
         jTextArea1.setColumns(20);
         jTextArea1.setRows(5);
         jTextArea1.setText("nuTagger, a free tag editor. Made with \nlove (through anguish) during 2016 \nby Stephen Gregoratto (C).\nnuTagger is licenced under the MIT \nlicence, located in the LICENCE file.\n\nnuTagger also uses the entagged library,\nlicenced under LGPL v2.1, and the \nOpenCSV library, licence under Apache\nLicence 2.0. These libraries' source code\nand their full licences are located in \nsource.zip\n\nnuTagger logo copyright of Designmodo \nand licenced under Creative-Commons\nAttribution 3.0 Unported (CC BY 3.0).\nIcon located at https://goo.gl/zjPahU\nLicence: https://goo.gl/2IwzdH\n\n");
@@ -102,6 +104,7 @@ public class AboutJFrame extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     /**

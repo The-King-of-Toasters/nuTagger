@@ -4,10 +4,13 @@
   <Properties>
     <Property name="defaultCloseOperation" type="int" value="2"/>
     <Property name="title" type="java.lang.String" value="About nuTagger"/>
+    <Property name="location" type="java.awt.Point" editor="org.netbeans.beaninfo.editors.PointEditor">
+      <Point value="[-1, -1]"/>
+    </Property>
   </Properties>
   <SyntheticProperties>
     <SyntheticProperty name="formSizePolicy" type="int" value="1"/>
-    <SyntheticProperty name="generateCenter" type="boolean" value="false"/>
+    <SyntheticProperty name="generateCenter" type="boolean" value="true"/>
   </SyntheticProperties>
   <AuxValues>
     <AuxValue name="FormSettings_autoResourcing" type="java.lang.Integer" value="0"/>
@@ -79,6 +82,7 @@
       <SubComponents>
         <Component class="javax.swing.JTextArea" name="jTextArea1">
           <Properties>
+            <Property name="editable" type="boolean" value="false"/>
             <Property name="columns" type="int" value="20"/>
             <Property name="rows" type="int" value="5"/>
             <Property name="text" type="java.lang.String" value="nuTagger, a free tag editor. Made with &#xa;love (through anguish) during 2016 &#xa;by Stephen Gregoratto (C).&#xa;nuTagger is licenced under the MIT &#xa;licence, located in the LICENCE file.&#xa;&#xa;nuTagger also uses the entagged library,&#xa;licenced under LGPL v2.1, and the &#xa;OpenCSV library, licence under Apache&#xa;Licence 2.0. These libraries&apos; source code&#xa;and their full licences are located in &#xa;source.zip&#xa;&#xa;nuTagger logo copyright of Designmodo &#xa;and licenced under Creative-Commons&#xa;Attribution 3.0 Unported (CC BY 3.0).&#xa;Icon located at https://goo.gl/zjPahU&#xa;Licence: https://goo.gl/2IwzdH&#xa;&#xa;"/>
